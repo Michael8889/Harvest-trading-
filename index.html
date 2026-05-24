@@ -142,6 +142,24 @@
   .err-msg { color:#dc2626; font-size:13px; padding:8px 0; }
   .disclaimer { font-size:10px; color:#94a3b8; margin-top:8px; }
 
+  /* ── Manhuaçu card ── */
+  .manhuacu-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:18px 22px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.05); position:relative; overflow:hidden; }
+  .manhuacu-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#1e40af,#3b82f6); }
+  .manhuacu-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  .manhuacu-label { font-size:10px; color:#1e40af; letter-spacing:2px; font-weight:700; margin-bottom:6px; }
+  .manhuacu-price-bruto { font-size:13px; color:#94a3b8; text-decoration:line-through; margin-bottom:2px; }
+  .manhuacu-price { font-size:38px; font-weight:800; color:#0f172a; letter-spacing:-1px; line-height:1; }
+  .manhuacu-desconto-badge { display:inline-flex; align-items:center; gap:4px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:20px; padding:3px 10px; font-size:11px; color:#1d4ed8; font-weight:600; margin-top:6px; }
+  .manhuacu-sub { font-size:11px; color:#94a3b8; margin-top:4px; }
+  .manhuacu-updated { font-size:10px; color:#94a3b8; margin-top:3px; }
+  .manhuacu-meta { display:flex; flex-direction:column; gap:8px; }
+  .manhuacu-row { display:flex; justify-content:space-between; align-items:center; }
+  .manhuacu-row-label { font-size:11px; color:#64748b; }
+  .manhuacu-row-val { font-size:13px; color:#334155; font-weight:600; }
+  .manhuacu-source { display:flex; align-items:center; gap:6px; margin-top:8px; padding-top:8px; border-top:1px solid #f1f5f9; }
+  .manhuacu-source a { font-size:11px; color:#3b82f6; text-decoration:none; font-weight:600; }
+  .manhuacu-source a:hover { text-decoration:underline; }
+
   .glossary { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 16px; font-size:11px; color:#94a3b8; line-height:1.8; }
   .glossary span { color:#166534; font-weight:700; }
   .footer { text-align:center; margin-top:14px; font-size:11px; color:#cbd5e1; }
@@ -152,6 +170,7 @@
 
   @media(max-width:480px) {
     .beside-grid { grid-template-columns:1fr; }
+    .manhuacu-grid { grid-template-columns:1fr; }
     .admin-grid { grid-template-columns:1fr; }
     .two-col { grid-template-columns:1fr; }
     .tecnico-grid { grid-template-columns:1fr; }
@@ -225,7 +244,7 @@
       <div class="beside-price-wrap">
         <div class="beside-label">BESIDE DURA · 20% CATA · R$/SACA</div>
         <div class="beside-price" id="beside-price">—</div>
-        <div class="beside-sub" id="beside-desc">Cotação OFI · atualizado manualmente</div>
+        <div class="beside-sub" id="beside-desc">Cotação atualizada diariamente</div>
         <div class="beside-updated" id="beside-updated"></div>
       </div>
       <div class="beside-meta">
@@ -238,12 +257,34 @@
           <span class="beside-row-val">20%</span>
         </div>
         <div class="beside-row">
-          <span class="beside-row-label">Referência</span>
-          <span class="beside-row-val">OFI / Olam</span>
-        </div>
-        <div class="beside-row">
           <span class="beside-row-label">Unidade</span>
           <span class="beside-row-val">R$/saca 60kg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICO MANHUAÇU CARD ══ -->
+  <div class="manhuacu-card">
+    <div class="manhuacu-grid">
+      <div>
+        <div class="manhuacu-label">FÍSICO MANHUAÇU · ARÁBICA · R$/SACA</div>
+        <div class="manhuacu-price" id="manhuacu-price">—</div>
+        <div class="manhuacu-sub" id="manhuacu-sub">Cotação Manhuaçu · MG · atualizado diariamente</div>
+        <div class="manhuacu-updated" id="manhuacu-updated"></div>
+      </div>
+      <div class="manhuacu-meta">
+        <div class="manhuacu-row">
+          <span class="manhuacu-row-label">Praça</span>
+          <span class="manhuacu-row-val">Manhuaçu · MG</span>
+        </div>
+        <div class="manhuacu-row">
+          <span class="manhuacu-row-label">Tipo</span>
+          <span class="manhuacu-row-val" id="manhuacu-tipo">Arábica</span>
+        </div>
+        <div class="manhuacu-row">
+          <span class="manhuacu-row-label">Unidade</span>
+          <span class="manhuacu-row-val">R$/saca 60kg</span>
         </div>
       </div>
     </div>
@@ -275,9 +316,11 @@
 
     <!-- Admin content (locked by default) -->
     <div id="admin-content" style="display:none">
+
+      <!-- Beside Dura -->
       <div class="admin-title">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        ATUALIZAR COTAÇÃO · BESIDE DURA
+        BESIDE DURA · 20% CATA (OFI)
       </div>
       <div class="admin-grid">
         <div class="admin-field">
@@ -293,10 +336,48 @@
           <input type="text" id="input-obs" placeholder="ex: Cotação OFI fechamento da tarde"/>
         </div>
       </div>
-      <div style="display:flex;align-items:center">
-        <button class="admin-save" onclick="saveBeside()">💾 Salvar Cotação</button>
+      <div style="display:flex;align-items:center;margin-bottom:20px">
+        <button class="admin-save" onclick="saveBeside()">💾 Salvar Beside</button>
         <span class="admin-saved" id="admin-saved">✓ Salvo!</span>
-        <button style="margin-left:auto;background:none;border:none;font-size:11px;color:#94a3b8;cursor:pointer" onclick="lockAdmin()">Sair</button>
+      </div>
+
+      <!-- Divisor -->
+      <div style="height:1px;background:#f1f5f9;margin-bottom:16px"></div>
+
+      <!-- Manhuaçu -->
+      <div class="admin-title" style="color:#1e40af">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        FÍSICO MANHUAÇU (cafemanhuacu.com.br)
+      </div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 12px">
+        💡 Abra <a href="https://cafemanhuacu.com.br" target="_blank" style="color:#1d4ed8;font-weight:600">cafemanhuacu.com.br</a>, veja o preço do dia e digite abaixo. O painel desconta R$80 automaticamente e mostra o valor líquido ao cliente.
+      </div>
+      <div class="admin-grid">
+        <div class="admin-field">
+          <label>PREÇO BRUTO MANHUAÇU (R$/SACA)</label>
+          <input type="number" id="input-manhuacu-price" placeholder="ex: 1420" step="1"/>
+        </div>
+        <div class="admin-field">
+          <label>DESCONTO HARVEST (R$/SACA)</label>
+          <input type="number" id="input-manhuacu-desconto" placeholder="80" step="1" value="80"/>
+        </div>
+        <div class="admin-field">
+          <label>TIPO DE CAFÉ</label>
+          <input type="text" id="input-manhuacu-tipo" placeholder="ex: Arábica Bebida Dura"/>
+        </div>
+        <div class="admin-field">
+          <label>DATA DA COTAÇÃO</label>
+          <input type="text" id="input-manhuacu-date" placeholder="ex: 22/05/2025"/>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;margin-bottom:16px">
+        <button class="admin-save" style="background:#1e40af" onclick="saveManhuacu()">💾 Salvar Manhuaçu</button>
+        <span class="admin-saved" id="admin-saved-manhuacu">✓ Salvo!</span>
+      </div>
+
+      <div style="height:1px;background:#f1f5f9;margin-bottom:12px"></div>
+      <div style="display:flex;justify-content:flex-end">
+        <button style="background:none;border:none;font-size:11px;color:#94a3b8;cursor:pointer" onclick="lockAdmin()">Sair do admin</button>
       </div>
     </div>
   </div>
@@ -382,8 +463,9 @@
 <script>
 // ── Config ────────────────────────────────────────────────────────────────────
 const ADMIN_PASSWORD = 'harvest2025';
-const WA_NUMBER = '4407908086358'; // +44 07908086358
-const STORAGE_KEY = 'harvest_beside_v1';
+const WA_NUMBER = '4407908086358';
+const SUPA_URL = 'https://rvcedqqeyciakktplqzq.supabase.co';
+const SUPA_KEY = 'sb_publishable_PXMflGpWsC3XtiYvkpdjVQ_GQUkcdcs';
 
 const FALLBACK = { price: 272.00, change: 1.50, pct: 0.55, high: 274.50, low: 269.80, prev: 270.50, volume: 18200, priceRaw: 2.720 };
 let priceData = null;
@@ -399,6 +481,37 @@ function nowDateStr() {
 function tocents(n) { return n != null ? Number(n) * 100 : null; }
 function fmtC(n) { return n != null ? Number(n).toFixed(2) + '¢' : '—'; }
 function fmtBRL(n) { return n != null ? 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'; }
+
+// ── Supabase helpers ──────────────────────────────────────────────────────────
+async function supaGet(chave) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/cotacoes?chave=eq.${chave}&select=dados`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const rows = await res.json();
+    if (rows && rows.length > 0) return JSON.parse(rows[0].dados);
+  } catch(e) {}
+  return null;
+}
+
+async function supaSet(chave, dados) {
+  const body = JSON.stringify({ chave, dados: JSON.stringify(dados) });
+  // upsert — insere ou atualiza
+  await fetch(`${SUPA_URL}/rest/v1/cotacoes?chave=eq.${chave}`, {
+    method: 'DELETE',
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  });
+  await fetch(`${SUPA_URL}/rest/v1/cotacoes`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body
+  });
+}
 
 // ── KC Price fetch ────────────────────────────────────────────────────────────
 async function fetchPrice() {
@@ -455,18 +568,14 @@ function updatePriceUI() {
   s.textContent = `.price-card::before { background: linear-gradient(90deg, ${up?'#166534':'#991b1b'}, ${color}) !important; }`;
 }
 
-// ── Beside storage (localStorage for persistence) ─────────────────────────────
-function loadBeside() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return null;
+// ── Beside storage (Supabase) ─────────────────────────────────────────────────
+async function loadBeside() {
+  return await supaGet('beside');
 }
 
-function saveBesideData(price, date, obs) {
+async function saveBesideData(price, date, obs) {
   const data = { price, date, obs, savedAt: new Date().toISOString() };
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  await supaSet('beside', data);
   renderBeside(data);
 }
 
@@ -477,8 +586,37 @@ function renderBeside(data) {
     return;
   }
   document.getElementById('beside-price').textContent = fmtBRL(data.price);
-  document.getElementById('beside-desc').textContent = data.obs || 'Cotação OFI · atualizado manualmente';
+  document.getElementById('beside-desc').textContent = data.obs || 'Cotação atualizada diariamente';
   document.getElementById('beside-updated').textContent = 'Atualizado em ' + (data.date || '') + (data.date ? ' · ' : '') + 'por Harvest Coffee';
+}
+
+// ── Manhuaçu storage (Supabase) ───────────────────────────────────────────────
+async function loadManhuacu() {
+  return await supaGet('manhuacu');
+}
+
+async function saveManhuacuData(priceBruto, desconto, tipo, date) {
+  const priceNet = priceBruto - desconto;
+  const data = { priceBruto, desconto, priceNet, tipo, date, savedAt: new Date().toISOString() };
+  await supaSet('manhuacu', data);
+  renderManhuacu(data);
+}
+
+function renderManhuacu(data) {
+  const priceEl = document.getElementById('manhuacu-price');
+  const subEl   = document.getElementById('manhuacu-sub');
+  const updEl   = document.getElementById('manhuacu-updated');
+  const tipoEl  = document.getElementById('manhuacu-tipo');
+
+  if (!data || !data.priceBruto) {
+    priceEl.textContent = '—';
+    updEl.textContent = 'Aguardando atualização';
+    return;
+  }
+  priceEl.textContent = fmtBRL(data.priceNet);
+  if (data.tipo) tipoEl.textContent = data.tipo;
+  subEl.textContent = 'Cotação Manhuaçu · MG · atualizado diariamente';
+  updEl.textContent = 'Atualizado em ' + (data.date || nowDateStr()) + ' · Harvest Coffee';
 }
 
 // ── Admin panel ───────────────────────────────────────────────────────────────
@@ -495,15 +633,27 @@ function checkPassword() {
     document.getElementById('admin-lock-screen').style.display = 'none';
     document.getElementById('admin-content').style.display = 'block';
     adminUnlocked = true;
-    // pre-fill with saved data
-    const saved = loadBeside();
-    if (saved) {
-      document.getElementById('input-price').value = saved.price || '';
-      document.getElementById('input-date').value = saved.date || nowDateStr();
-      document.getElementById('input-obs').value = saved.obs || '';
-    } else {
-      document.getElementById('input-date').value = nowDateStr();
-    }
+    // pre-fill beside
+    loadBeside().then(saved => {
+      if (saved) {
+        document.getElementById('input-price').value = saved.price || '';
+        document.getElementById('input-date').value = saved.date || nowDateStr();
+        document.getElementById('input-obs').value = saved.obs || '';
+      } else {
+        document.getElementById('input-date').value = nowDateStr();
+      }
+    });
+    // pre-fill manhuaçu
+    loadManhuacu().then(savedM => {
+      if (savedM) {
+        document.getElementById('input-manhuacu-price').value = savedM.priceBruto || '';
+        document.getElementById('input-manhuacu-desconto').value = savedM.desconto || 80;
+        document.getElementById('input-manhuacu-tipo').value = savedM.tipo || '';
+        document.getElementById('input-manhuacu-date').value = savedM.date || nowDateStr();
+      } else {
+        document.getElementById('input-manhuacu-date').value = nowDateStr();
+      }
+    });
   } else {
     document.getElementById('pass-error').style.display = 'block';
   }
@@ -519,25 +669,40 @@ function lockAdmin() {
   document.getElementById('admin-toggle-label').textContent = 'PAINEL ADMIN';
 }
 
-function saveBeside() {
+async function saveBeside() {
   const price = parseFloat(document.getElementById('input-price').value);
   const date = document.getElementById('input-date').value.trim() || nowDateStr();
   const obs = document.getElementById('input-obs').value.trim();
   if (!price || isNaN(price)) { alert('Digite um preço válido.'); return; }
-  saveBesideData(price, date, obs);
+  await saveBesideData(price, date, obs);
   const saved = document.getElementById('admin-saved');
   saved.style.display = 'inline';
   setTimeout(() => { saved.style.display = 'none'; }, 2500);
 }
 
+async function saveManhuacu() {
+  const bruto = parseFloat(document.getElementById('input-manhuacu-price').value);
+  const desconto = parseFloat(document.getElementById('input-manhuacu-desconto').value) || 80;
+  const tipo = document.getElementById('input-manhuacu-tipo').value.trim();
+  const date = document.getElementById('input-manhuacu-date').value.trim() || nowDateStr();
+  if (!bruto || isNaN(bruto)) { alert('Digite o preço bruto de Manhuaçu.'); return; }
+  await saveManhuacuData(bruto, desconto, tipo, date);
+  const saved = document.getElementById('admin-saved-manhuacu');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2500);
+}
+
 // ── WhatsApp CTA ──────────────────────────────────────────────────────────────
-function openWhatsApp(e) {
+async function openWhatsApp(e) {
   e.preventDefault();
   const kc = priceData ? fmtC(priceData.price) : '—';
-  const beside = (() => { const d = loadBeside(); return d?.price ? fmtBRL(d.price) : '—'; })();
+  const db = await loadBeside();
+  const dm = await loadManhuacu();
+  const beside = db?.price ? fmtBRL(db.price) : '—';
+  const manhuacu = dm?.priceNet ? fmtBRL(dm.priceNet) : '—';
   const msg = encodeURIComponent(
     `Olá Harvest Coffee! 👋\n\nGostaria de vender meu café.\n\n` +
-    `📊 Cotações atuais:\n• KC Bolsa: ${kc}\n• Beside Dura (20% cata): ${beside}\n\n` +
+    `📊 Cotações atuais:\n• KC Bolsa: ${kc}\n• Beside Dura (20% cata): ${beside}\n• Físico Manhuaçu: ${manhuacu}\n\n` +
     `Pode me passar mais informações?`
   );
   window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
@@ -687,9 +852,17 @@ function buildGauge(value) {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
+async function initCotacoes() {
+  const [beside, manhuacu] = await Promise.all([loadBeside(), loadManhuacu()]);
+  renderBeside(beside);
+  renderManhuacu(manhuacu);
+}
+
 fetchPrice();
 setInterval(fetchPrice, 30000);
-renderBeside(loadBeside());
+initCotacoes();
+// Recarrega cotações do Supabase a cada 60s para manter em tempo real
+setInterval(initCotacoes, 60000);
 </script>
 </body>
 </html>
