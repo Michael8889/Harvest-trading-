@@ -1,85 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvest Coffee · Monitor KC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f1f5f9; font-family: -apple-system, 'Segoe UI', sans-serif; color: #1e293b; min-height: 100vh; padding: 20px 14px 40px; }
 
+  /* ── Layout ── */
+  .header { max-width: 720px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-text { font-size: 22px; font-weight: 800; color: #166534; font-family: Georgia, serif; letter-spacing: -0.5px; line-height: 1; }
+  .logo-sub { font-size: 9px; color: #16a34a; letter-spacing: 3px; font-weight: 700; }
+  .live-badge { display: flex; align-items: center; gap: 6px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 20px; padding: 5px 12px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: pulse 1.8s infinite; }
+  .live-text { font-size: 11px; color: #16a34a; font-weight: 700; letter-spacing: 1px; }
+  .divider { max-width: 720px; margin: 0 auto 6px; height: 2px; background: linear-gradient(90deg, #166534, #4ade80, transparent); opacity: 0.35; border-radius: 2px; }
+  .subtitle { max-width: 720px; margin: 0 auto 16px; font-size: 12px; color: #94a3b8; }
+  .wrap { max-width: 720px; margin: 0 auto; }
 
-Harvest
-COFFEE
-MERCADO AO VIVO
-KC Arábica ICE · Bolsa vs Físico · Sul de Minas Gerais
+  /* ── KC Price card ── */
+  .price-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px 22px; margin-bottom: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+  .price-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#166534,#22c55e); }
+  .price-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; }
+  .price-label { font-size:11px; color:#94a3b8; letter-spacing:2px; font-weight:600; margin-bottom:6px; }
+  .price-big { font-size:46px; font-weight:800; color:#0f172a; letter-spacing:-2px; line-height:1; }
+  .price-chg { display:flex; gap:10px; align-items:center; margin-top:8px; }
+  .chg-val { font-size:19px; font-weight:700; }
+  .chg-pct { font-size:13px; font-weight:700; padding:3px 10px; border-radius:20px; }
+  .stats-row { display:flex; gap:18px; flex-wrap:wrap; align-items:center; margin-top:14px; padding-top:12px; border-top:1px solid #f1f5f9; justify-content:space-between; }
+  .stat-item { text-align:left; }
+  .stat-label { font-size:9px; color:#94a3b8; letter-spacing:1px; font-weight:600; }
+  .stat-val { font-size:14px; color:#334155; font-weight:600; margin-top:2px; }
 
+  /* ── Beside/Dura card ── */
+  .beside-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:18px 22px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.05); position:relative; overflow:hidden; }
+  .beside-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#92400e,#d97706); }
+  .beside-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; }
+  .beside-price-wrap { }
+  .beside-label { font-size:10px; color:#92400e; letter-spacing:2px; font-weight:700; margin-bottom:6px; }
+  .beside-price { font-size:38px; font-weight:800; color:#0f172a; letter-spacing:-1px; line-height:1; }
+  .beside-sub { font-size:11px; color:#94a3b8; margin-top:4px; }
+  .beside-updated { font-size:10px; color:#94a3b8; margin-top:3px; }
+  .beside-meta { display:flex; flex-direction:column; gap:8px; }
+  .beside-row { display:flex; justify-content:space-between; align-items:center; }
+  .beside-row-label { font-size:11px; color:#64748b; }
+  .beside-row-val { font-size:13px; color:#334155; font-weight:600; }
 
+  /* Sell CTA */
+  .sell-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#166534,#15803d); border:none; border-radius:12px; color:#fff; font-size:16px; font-weight:800; font-family:inherit; cursor:pointer; letter-spacing:0.5px; margin-bottom:12px; box-shadow:0 4px 14px rgba(22,101,52,0.35); transition:all 0.15s; text-decoration:none; text-align:center; }
+  .sell-btn:hover { background:linear-gradient(135deg,#14532d,#166534); transform:translateY(-1px); box-shadow:0 6px 18px rgba(22,101,52,0.4); }
+  .sell-btn:active { transform:translateY(0); }
+  .sell-hint { text-align:center; font-size:11px; color:#94a3b8; margin-bottom:16px; margin-top:-8px; }
 
-KC FRONT MONTH · ¢/LB · ICE NY
-···
-— —
+  /* ── Admin panel ── */
+  .admin-toggle { display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; width:fit-content; }
+  .admin-toggle-text { font-size:11px; color:#94a3b8; font-weight:600; letter-spacing:0.5px; }
+  .admin-panel { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.05); display:none; }
+  .admin-panel.visible { display:block; }
+  .admin-title { font-size:12px; color:#64748b; font-weight:700; letter-spacing:1px; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+  .admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+  .admin-field label { display:block; font-size:10px; color:#94a3b8; font-weight:700; letter-spacing:1px; margin-bottom:5px; }
+  .admin-field input { width:100%; padding:8px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit; color:#1e293b; background:#f8fafc; outline:none; transition:border 0.15s; }
+  .admin-field input:focus { border-color:#16a34a; background:#fff; }
+  .admin-field.full { grid-column:1/-1; }
+  .admin-save { background:#166534; border:none; color:#fff; padding:9px 22px; border-radius:8px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; transition:all 0.15s; }
+  .admin-save:hover { background:#15803d; }
+  .admin-saved { display:none; font-size:12px; color:#16a34a; font-weight:600; margin-left:10px; }
+  .admin-lock { display:flex; align-items:center; gap:8px; margin-bottom:12px; padding:8px 12px; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; }
+  .admin-lock input { border:none; background:transparent; font-size:13px; font-family:inherit; outline:none; flex:1; }
+  .admin-lock-label { font-size:11px; color:#92400e; font-weight:600; }
 
+  /* ── Tabs ── */
+  .tabs-bar { display:flex; gap:3px; background:#fff; border-radius:12px 12px 0 0; padding:6px 6px 0; border:1px solid #e2e8f0; border-bottom:none; }
+  .tab-btn { flex:1; padding:10px 4px; font-size:10px; font-weight:700; font-family:inherit; cursor:pointer; border:none; border-radius:8px 8px 0 0; background:transparent; color:#94a3b8; border-bottom:2px solid transparent; transition:all 0.15s; }
+  .tab-btn:hover { background:#f8fafc; }
+  .tab-btn.active { background:#f8fafc; color:#166534; border-bottom:2px solid #16a34a; }
+  .tab-panel { background:#fff; border:1px solid #e2e8f0; border-top:none; border-radius:0 0 16px 16px; margin-bottom:12px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.05); }
+  .panel-header { padding:14px 18px; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; justify-content:space-between; }
+  .panel-title { font-size:13px; color:#334155; font-weight:600; }
+  .panel-sub { font-size:11px; color:#94a3b8; margin-top:2px; }
+  .panel-body { padding:18px; }
+  .btn-green { background:#166534; border:none; color:#fff; padding:8px 18px; border-radius:8px; font-size:12px; font-weight:600; font-family:inherit; cursor:pointer; transition:all 0.15s; }
+  .btn-green:hover { background:#15803d; }
+  .btn-green:disabled { background:#e2e8f0; color:#94a3b8; cursor:not-allowed; }
 
-MÁX
-—
+  /* Chart */
+  .tv-container { height:420px; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0; }
 
-MÍN
-—
+  /* Analysis blocks */
+  .summary-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 16px; margin-bottom:14px; font-size:14px; color:#166534; line-height:1.6; font-weight:500; }
+  .signal-row { display:flex; gap:10px; align-items:center; margin-bottom:14px; }
+  .signal-badge { padding:7px 20px; border-radius:8px; font-size:13px; font-weight:800; letter-spacing:1px; }
+  .signal-COMPRAR { background:#f0fdf4; border:1px solid #86efac; color:#15803d; }
+  .signal-VENDER { background:#fff1f2; border:1px solid #fda4af; color:#be123c; }
+  .signal-AGUARDAR { background:#fffbeb; border:1px solid #fcd34d; color:#92400e; }
+  .signal-conf { font-size:12px; color:#94a3b8; }
+  .signal-conf span { color:#475569; font-weight:600; }
+  .block { margin-bottom:12px; }
+  .block-title { font-size:10px; color:#94a3b8; letter-spacing:1px; font-weight:700; text-transform:uppercase; margin-bottom:6px; }
+  .block-body { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px; }
+  .block-body p, .block-body ul { margin:0; font-size:13px; color:#475569; line-height:1.7; }
+  .block-body ul { padding-left:18px; }
+  .block-body li { margin-bottom:5px; }
 
-FECH.ANT
-—
+  /* Tendência */
+  .direction-card { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin-bottom:14px; flex-wrap:wrap; }
+  .direction-ALTA { color:#16a34a; }
+  .direction-BAIXA { color:#dc2626; }
+  .direction-LATERAL { color:#d97706; }
+  .levels { text-align:right; }
+  .level-R { font-size:13px; color:#dc2626; font-weight:700; }
+  .level-sep { font-size:10px; color:#cbd5e1; margin:3px 0; }
+  .level-S { font-size:13px; color:#16a34a; font-weight:700; }
+  .factor-row { margin-bottom:10px; }
+  .factor-top { display:flex; justify-content:space-between; margin-bottom:4px; }
+  .factor-name { font-size:12px; color:#475569; font-weight:500; }
+  .factor-dir { font-size:11px; font-weight:700; }
+  .factor-dir.alta { color:#16a34a; }
+  .factor-dir.baixa { color:#dc2626; }
+  .factor-dir.neutro { color:#d97706; }
+  .factor-bar-bg { background:#f1f5f9; border-radius:4px; height:6px; overflow:hidden; }
+  .factor-bar-fill { height:100%; border-radius:4px; transition:width 0.6s ease; }
+  .factor-desc { font-size:11px; color:#64748b; margin-top:2px; }
+  .tecnico-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .tecnico-item { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; }
+  .tecnico-label { font-size:9px; color:#94a3b8; letter-spacing:1px; font-weight:600; margin-bottom:4px; }
+  .tecnico-val { font-size:12px; color:#334155; line-height:1.5; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+  .rec-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+  .rec-title { font-size:10px; color:#15803d; letter-spacing:1px; font-weight:700; margin-bottom:5px; }
+  .rec-text { font-size:13px; color:#166534; line-height:1.6; font-weight:500; }
+  .risk-box { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:10px 12px; margin-bottom:10px; }
+  .risk-title { font-size:10px; color:#c2410c; letter-spacing:1px; font-weight:700; margin-bottom:4px; }
+  .risk-text { font-size:12px; color:#9a3412; line-height:1.5; }
+  .empty-state { text-align:center; padding:32px 0; color:#94a3b8; font-size:13px; }
+  .loading-state { text-align:center; padding:32px 0; }
+  .loading-text { font-size:13px; color:#64748b; font-weight:500; }
+  .loading-sub { font-size:11px; color:#94a3b8; margin-top:6px; }
+  .err-msg { color:#dc2626; font-size:13px; padding:8px 0; }
+  .disclaimer { font-size:10px; color:#94a3b8; margin-top:8px; }
 
-VOLUME
-—
+  .glossary { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 16px; font-size:11px; color:#94a3b8; line-height:1.8; }
+  .glossary span { color:#166534; font-weight:700; }
+  .footer { text-align:center; margin-top:14px; font-size:11px; color:#cbd5e1; }
 
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .fade-in { animation:fadeIn 0.4s ease; }
 
+  @media(max-width:480px) {
+    .beside-grid { grid-template-columns:1fr; }
+    .admin-grid { grid-template-columns:1fr; }
+    .two-col { grid-template-columns:1fr; }
+    .tecnico-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
 
-BOLSA KC
-—
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="20" fill="#166534"/>
+      <path d="M20 31 L20 13" stroke="#86efac" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="20" cy="11" rx="4.5" ry="6.5" fill="#4ade80" opacity="0.95" transform="rotate(-20 20 11)"/>
+      <ellipse cx="20" cy="11" rx="4.5" ry="6.5" fill="#22c55e" opacity="0.9" transform="rotate(20 20 11)"/>
+      <ellipse cx="15" cy="19" rx="3.5" ry="5.5" fill="#86efac" opacity="0.85" transform="rotate(-38 15 19)"/>
+      <ellipse cx="25" cy="19" rx="3.5" ry="5.5" fill="#86efac" opacity="0.85" transform="rotate(38 25 19)"/>
+      <circle cx="20" cy="11" r="2.8" fill="#15803d"/>
+    </svg>
+    <div>
+      <div class="logo-text">Harvest</div>
+      <div class="logo-sub">COFFEE</div>
+    </div>
+  </div>
+  <div class="live-badge">
+    <span class="live-dot"></span>
+    <span class="live-text">MERCADO AO VIVO</span>
+  </div>
+</div>
+<div class="divider"></div>
+<p class="subtitle">KC Arábica ICE · Bolsa vs Físico · Sul de Minas Gerais</p>
 
-BASIS BR
-−8 a −12¢
+<div class="wrap">
 
-FÍSICO REF.
-—
+  <!-- ══ KC BOLSA CARD ══ -->
+  <div class="price-card">
+    <div class="price-top">
+      <div>
+        <div class="price-label">KC FRONT MONTH · ¢/LB · ICE NY</div>
+        <div class="price-big" id="price-val">···</div>
+        <div class="price-chg">
+          <span class="chg-val" id="chg-val" style="color:#16a34a">—</span>
+          <span class="chg-pct" id="chg-pct" style="color:#16a34a;background:#dcfce7">—</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        <div class="stat-item"><div class="stat-label">MÁX</div><div class="stat-val" id="stat-high">—</div></div>
+        <div class="stat-item"><div class="stat-label">MÍN</div><div class="stat-val" id="stat-low">—</div></div>
+        <div class="stat-item"><div class="stat-label">FECH.ANT</div><div class="stat-val" id="stat-prev">—</div></div>
+        <div class="stat-item"><div class="stat-label">VOLUME</div><div class="stat-val" id="stat-vol">—</div></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div class="stat-item"><div class="stat-label">BOLSA KC</div><div class="stat-val" id="basis-bolsa" style="color:#334155">—</div></div>
+        <div class="stat-item"><div class="stat-label">BASIS BR</div><div class="stat-val" style="color:#dc2626">−8 a −12¢</div></div>
+        <div class="stat-item"><div class="stat-label">FÍSICO REF.</div><div class="stat-val" id="basis-fisico" style="color:#166534">—</div></div>
+      </div>
+      <div style="text-align:right">
+        <div class="stat-label">ATUALIZADO</div>
+        <div style="font-size:11px;color:#64748b;margin-top:2px" id="last-update">—</div>
+        <div style="font-size:10px;color:#f59e0b;margin-top:2px;display:none" id="api-error">⚠ usando ref.</div>
+      </div>
+    </div>
+  </div>
 
-ATUALIZADO
-—
-⚠ usando ref.
+  <!-- ══ BESIDE DURA CARD ══ -->
+  <div class="beside-card">
+    <div class="beside-grid">
+      <div class="beside-price-wrap">
+        <div class="beside-label">BESIDE DURA · 20% CATA · R$/SACA</div>
+        <div class="beside-price" id="beside-price">—</div>
+        <div class="beside-sub" id="beside-desc">Cotação OFI · atualizado manualmente</div>
+        <div class="beside-updated" id="beside-updated"></div>
+      </div>
+      <div class="beside-meta">
+        <div class="beside-row">
+          <span class="beside-row-label">Qualidade</span>
+          <span class="beside-row-val">Beside Dura</span>
+        </div>
+        <div class="beside-row">
+          <span class="beside-row-label">Cata</span>
+          <span class="beside-row-val">20%</span>
+        </div>
+        <div class="beside-row">
+          <span class="beside-row-label">Referência</span>
+          <span class="beside-row-val">OFI / Olam</span>
+        </div>
+        <div class="beside-row">
+          <span class="beside-row-label">Unidade</span>
+          <span class="beside-row-val">R$/saca 60kg</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ══ BOTÃO VENDER ══ -->
+  <a id="sell-btn" class="sell-btn" href="#" onclick="openWhatsApp(event)">
+    ☕ QUERO VENDER MEU CAFÉ
+  </a>
+  <p class="sell-hint">Fale diretamente com a equipe Harvest Coffee no WhatsApp</p>
 
+  <!-- ══ ADMIN TOGGLE ══ -->
+  <div class="admin-toggle" onclick="toggleAdmin()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    <span class="admin-toggle-text" id="admin-toggle-label">PAINEL ADMIN</span>
+  </div>
 
-BESIDE DURA · 20% CATA · R$/SACA
-—
-Cotação OFI · atualizado manualmente
+  <div class="admin-panel" id="admin-panel">
+    <!-- Lock screen -->
+    <div id="admin-lock-screen">
+      <div class="admin-lock">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <span class="admin-lock-label">Senha:</span>
+        <input type="password" id="admin-password" placeholder="Digite a senha admin" onkeydown="if(event.key==='Enter')checkPassword()"/>
+        <button class="admin-save" onclick="checkPassword()">Entrar</button>
+      </div>
+      <div style="font-size:11px;color:#dc2626;display:none" id="pass-error">Senha incorreta.</div>
+    </div>
 
-Qualidade Beside Dura
-Cata 20%
-Referência OFI / Olam
-Unidade R$/saca 60kg
-☕ QUERO VENDER MEU CAFÉ
-Fale diretamente com a equipe Harvest Coffee no WhatsApp
-PAINEL ADMIN
+    <!-- Admin content (locked by default) -->
+    <div id="admin-content" style="display:none">
+      <div class="admin-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        ATUALIZAR COTAÇÃO · BESIDE DURA
+      </div>
+      <div class="admin-grid">
+        <div class="admin-field">
+          <label>PREÇO (R$/SACA)</label>
+          <input type="number" id="input-price" placeholder="ex: 1350" step="1"/>
+        </div>
+        <div class="admin-field">
+          <label>DATA DA COTAÇÃO</label>
+          <input type="text" id="input-date" placeholder="ex: 22/05/2025"/>
+        </div>
+        <div class="admin-field full">
+          <label>OBSERVAÇÃO (opcional)</label>
+          <input type="text" id="input-obs" placeholder="ex: Cotação OFI fechamento da tarde"/>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button class="admin-save" onclick="saveBeside()">💾 Salvar Cotação</button>
+        <span class="admin-saved" id="admin-saved">✓ Salvo!</span>
+        <button style="margin-left:auto;background:none;border:none;font-size:11px;color:#94a3b8;cursor:pointer" onclick="lockAdmin()">Sair</button>
+      </div>
+    </div>
+  </div>
 
-Senha: Entrar
-Senha incorreta.
+  <!-- ══ TABS ══ -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('grafico')" id="tab-grafico">📈 GRÁFICO</button>
+    <button class="tab-btn" onclick="switchTab('analise')" id="tab-analise">🔍 ANÁLISE DO DIA</button>
+    <button class="tab-btn" onclick="switchTab('tendencia')" id="tab-tendencia">⏱ TENDÊNCIA 4-8H</button>
+  </div>
 
-ATUALIZAR COTAÇÃO · BESIDE DURA
+  <div class="tab-panel">
 
-PREÇO (R$/SACA)
-DATA DA COTAÇÃO
-OBSERVAÇÃO (opcional)
-💾 Salvar Cotação ✓ Salvo! Sair
-📈 GRÁFICO 🔍 ANÁLISE DO DIA ⏱ TENDÊNCIA 4-8H
+    <!-- GRÁFICO -->
+    <div id="panel-grafico">
+      <div class="panel-body">
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Gráfico em tempo real · KC Arábica ICE · TradingView</div>
+        <div class="tv-container">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            {
+              "autosize": true,
+              "symbol": "ICEUS:KC1!",
+              "interval": "15",
+              "timezone": "America/Sao_Paulo",
+              "theme": "light",
+              "style": "1",
+              "locale": "br",
+              "allow_symbol_change": false,
+              "calendar": false,
+              "hide_top_toolbar": false,
+              "save_image": false,
+              "support_host": "https://www.tradingview.com"
+            }
+            </script>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:8px;text-align:right">Dados TradingView · Preço real-time</div>
+      </div>
+    </div>
 
+    <!-- ANÁLISE -->
+    <div id="panel-analise" style="display:none">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Por que o preço está oscilando?</div>
+          <div class="panel-sub">Bolsa vs físico · câmbio · basis</div>
+        </div>
+        <button class="btn-green" id="btn-analise" onclick="fetchAnalysis()">↻ Analisar</button>
+      </div>
+      <div class="panel-body">
+        <div id="analise-content"><div class="empty-state">Clique em "Analisar" para entender o mercado hoje</div></div>
+      </div>
+    </div>
 
-Gráfico em tempo real · KC Arábica ICE · TradingView
-Dados TradingView · Preço real-time
+    <!-- TENDÊNCIA -->
+    <div id="panel-tendencia" style="display:none">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Projeção técnica + fundamentalista</div>
+          <div class="panel-sub">Gráficos · clima · geopolítica · macro</div>
+        </div>
+        <button class="btn-green" id="btn-tendencia" onclick="fetchTendencia()">↻ Projetar</button>
+      </div>
+      <div class="panel-body">
+        <div id="tendencia-content"><div class="empty-state">Clique em "Projetar" para ver a tendência das próximas horas</div></div>
+      </div>
+    </div>
 
+  </div>
 
-Por que o preço está oscilando?
-Bolsa vs físico · câmbio · basis
-↻ Analisar
+  <!-- GLOSSÁRIO -->
+  <div class="glossary">
+    <span>BASIS</span> = físico BR vs bolsa NYC &nbsp;·&nbsp;
+    <span>KC</span> = contrato arábica ICE &nbsp;·&nbsp;
+    <span>S/R</span> = suporte/resistência &nbsp;·&nbsp;
+    <span>RSI</span> = força relativa do preço
+  </div>
+  <div class="footer">Harvest Coffee · Monitor KC Arábica</div>
+</div>
 
-Clique em "Analisar" para entender o mercado hoje
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = 'harvest2025';
+const WA_NUMBER = '4407908086358'; // +44 07908086358
+const STORAGE_KEY = 'harvest_beside_v1';
 
+const FALLBACK = { price: 272.00, change: 1.50, pct: 0.55, high: 274.50, low: 269.80, prev: 270.50, volume: 18200, priceRaw: 2.720 };
+let priceData = null;
+let adminUnlocked = false;
 
-Projeção técnica + fundamentalista
-Gráficos · clima · geopolítica · macro
-↻ Projetar
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function nowStr() {
+  return new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+function nowDateStr() {
+  return new Date().toLocaleDateString('pt-BR');
+}
+function tocents(n) { return n != null ? Number(n) * 100 : null; }
+function fmtC(n) { return n != null ? Number(n).toFixed(2) + '¢' : '—'; }
+function fmtBRL(n) { return n != null ? 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'; }
 
-Clique em "Projetar" para ver a tendência das próximas horas
-BASIS = físico BR vs bolsa NYC  ·  KC = contrato arábica ICE  ·  S/R = suporte/resistência  ·  RSI = força relativa do preço
-Harvest Coffee · Monitor KC Arábica
+// ── KC Price fetch ────────────────────────────────────────────────────────────
+async function fetchPrice() {
+  try {
+    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/KC%3DF?interval=1m&range=1d';
+    const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+    const res = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+    const json = await res.json();
+    const data = JSON.parse(json.contents);
+    const meta = data?.chart?.result?.[0]?.meta;
+    if (!meta) throw new Error('no meta');
+    const p = meta.regularMarketPrice;
+    const prev = meta.chartPreviousClose || meta.previousClose;
+    const chg = p - prev;
+    const pct = (chg / prev) * 100;
+    priceData = {
+      price: tocents(p), change: tocents(chg), pct,
+      high: tocents(meta.regularMarketDayHigh),
+      low: tocents(meta.regularMarketDayLow),
+      prev: tocents(prev),
+      volume: meta.regularMarketVolume,
+      priceRaw: p
+    };
+    document.getElementById('api-error').style.display = 'none';
+    updatePriceUI();
+    document.getElementById('last-update').textContent = nowStr();
+  } catch(e) {
+    document.getElementById('api-error').style.display = 'block';
+    if (!priceData) { priceData = FALLBACK; updatePriceUI(); document.getElementById('last-update').textContent = nowStr() + ' (ref)'; }
+  }
+}
+
+function updatePriceUI() {
+  const d = priceData;
+  const up = d.change >= 0;
+  const color = up ? '#16a34a' : '#dc2626';
+  const bg = up ? '#dcfce7' : '#fee2e2';
+  document.getElementById('price-val').textContent = fmtC(d.price);
+  const cv = document.getElementById('chg-val');
+  cv.textContent = (d.change >= 0 ? '+' : '') + d.change.toFixed(2) + '¢';
+  cv.style.color = color;
+  const cp = document.getElementById('chg-pct');
+  cp.textContent = (d.pct >= 0 ? '+' : '') + d.pct.toFixed(2) + '%';
+  cp.style.color = color; cp.style.background = bg;
+  document.getElementById('stat-high').textContent = fmtC(d.high);
+  document.getElementById('stat-low').textContent = fmtC(d.low);
+  document.getElementById('stat-prev').textContent = fmtC(d.prev);
+  document.getElementById('stat-vol').textContent = d.volume ? (d.volume/1000).toFixed(0)+'k' : '—';
+  document.getElementById('basis-bolsa').textContent = fmtC(d.price);
+  document.getElementById('basis-fisico').textContent = fmtC(d.price - 10);
+  // dynamic top bar
+  let s = document.getElementById('dyn-style');
+  if (!s) { s = document.createElement('style'); s.id = 'dyn-style'; document.head.appendChild(s); }
+  s.textContent = `.price-card::before { background: linear-gradient(90deg, ${up?'#166534':'#991b1b'}, ${color}) !important; }`;
+}
+
+// ── Beside storage (localStorage for persistence) ─────────────────────────────
+function loadBeside() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+function saveBesideData(price, date, obs) {
+  const data = { price, date, obs, savedAt: new Date().toISOString() };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  renderBeside(data);
+}
+
+function renderBeside(data) {
+  if (!data || !data.price) {
+    document.getElementById('beside-price').textContent = '—';
+    document.getElementById('beside-updated').textContent = 'Aguardando atualização pelo admin';
+    return;
+  }
+  document.getElementById('beside-price').textContent = fmtBRL(data.price);
+  document.getElementById('beside-desc').textContent = data.obs || 'Cotação OFI · atualizado manualmente';
+  document.getElementById('beside-updated').textContent = 'Atualizado em ' + (data.date || '') + (data.date ? ' · ' : '') + 'por Harvest Coffee';
+}
+
+// ── Admin panel ───────────────────────────────────────────────────────────────
+function toggleAdmin() {
+  const panel = document.getElementById('admin-panel');
+  const isVisible = panel.classList.contains('visible');
+  panel.classList.toggle('visible', !isVisible);
+  document.getElementById('admin-toggle-label').textContent = isVisible ? 'PAINEL ADMIN' : 'FECHAR ADMIN';
+}
+
+function checkPassword() {
+  const val = document.getElementById('admin-password').value;
+  if (val === ADMIN_PASSWORD) {
+    document.getElementById('admin-lock-screen').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    adminUnlocked = true;
+    // pre-fill with saved data
+    const saved = loadBeside();
+    if (saved) {
+      document.getElementById('input-price').value = saved.price || '';
+      document.getElementById('input-date').value = saved.date || nowDateStr();
+      document.getElementById('input-obs').value = saved.obs || '';
+    } else {
+      document.getElementById('input-date').value = nowDateStr();
+    }
+  } else {
+    document.getElementById('pass-error').style.display = 'block';
+  }
+}
+
+function lockAdmin() {
+  document.getElementById('admin-lock-screen').style.display = 'block';
+  document.getElementById('admin-content').style.display = 'none';
+  document.getElementById('admin-password').value = '';
+  document.getElementById('pass-error').style.display = 'none';
+  adminUnlocked = false;
+  document.getElementById('admin-panel').classList.remove('visible');
+  document.getElementById('admin-toggle-label').textContent = 'PAINEL ADMIN';
+}
+
+function saveBeside() {
+  const price = parseFloat(document.getElementById('input-price').value);
+  const date = document.getElementById('input-date').value.trim() || nowDateStr();
+  const obs = document.getElementById('input-obs').value.trim();
+  if (!price || isNaN(price)) { alert('Digite um preço válido.'); return; }
+  saveBesideData(price, date, obs);
+  const saved = document.getElementById('admin-saved');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2500);
+}
+
+// ── WhatsApp CTA ──────────────────────────────────────────────────────────────
+function openWhatsApp(e) {
+  e.preventDefault();
+  const kc = priceData ? fmtC(priceData.price) : '—';
+  const beside = (() => { const d = loadBeside(); return d?.price ? fmtBRL(d.price) : '—'; })();
+  const msg = encodeURIComponent(
+    `Olá Harvest Coffee! 👋\n\nGostaria de vender meu café.\n\n` +
+    `📊 Cotações atuais:\n• KC Bolsa: ${kc}\n• Beside Dura (20% cata): ${beside}\n\n` +
+    `Pode me passar mais informações?`
+  );
+  window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(id) {
+  ['grafico','analise','tendencia'].forEach(t => {
+    document.getElementById('panel-'+t).style.display = t === id ? 'block' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t === id);
+  });
+}
+
+// ── Claude API ────────────────────────────────────────────────────────────────
+async function callClaude(prompt, maxTokens) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: maxTokens || 1000,
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean.slice(clean.indexOf('{'), clean.lastIndexOf('}')+1));
+}
+
+async function fetchAnalysis() {
+  const btn = document.getElementById('btn-analise');
+  btn.disabled = true; btn.textContent = 'Analisando...';
+  const el = document.getElementById('analise-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-text">Pesquisando notícias e analisando mercado…</div><div class="loading-sub">Aguarde alguns segundos</div></div>';
+  try {
+    const p = priceData?.priceRaw ?? 2.720;
+    const pc = priceData?.price ?? 272.00;
+    const chg = priceData?.pct ?? FALLBACK.pct;
+    const r = await callClaude(`Você é analista especialista em café arábica brasileiro.
+KC cotado em ${pc.toFixed(2)}¢/lb ($${p.toFixed(3)}/lb), variação ${chg>=0?'+':''}${chg.toFixed(2)}% (${chg>=0?'alta':'queda'}).
+Responda para produtor/comprador de café do Sul de Minas.
+SOMENTE JSON válido sem markdown:
+{"resumo":"1 frase","razoes_bolsa":["r1","r2","r3"],"fisico_vs_bolsa":"2-3 frases basis câmbio","impacto_produtor":"impacto Minas Gerais","sinal":"COMPRAR ou VENDER ou AGUARDAR","confianca":"ALTO ou MÉDIO ou BAIXO"}`, 1000);
+    const sig = r.sinal || 'AGUARDAR';
+    el.innerHTML = `<div class="fade-in">
+      <div class="summary-box">${r.resumo}</div>
+      <div class="signal-row">
+        <div class="signal-badge signal-${sig}">${sig}</div>
+        <div class="signal-conf">Confiança: <span>${r.confianca}</span></div>
+      </div>
+      <div class="block"><div class="block-title">Por que a bolsa está se movendo</div>
+        <div class="block-body"><ul>${(r.razoes_bolsa||[]).map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+      <div class="block"><div class="block-title">Por que o físico não acompanha a bolsa</div>
+        <div class="block-body"><p>${r.fisico_vs_bolsa}</p></div></div>
+      <div class="block"><div class="block-title">O que significa para você em Minas Gerais</div>
+        <div class="block-body"><p>${r.impacto_produtor}</p></div></div>
+      <div class="disclaimer">Gerado às ${nowStr()} · Não constitui recomendação financeira</div>
+    </div>`;
+  } catch(e) {
+    el.innerHTML = '<div class="err-msg">Não foi possível gerar análise. Tente novamente.</div>';
+  }
+  btn.disabled = false; btn.textContent = '↻ Analisar';
+}
+
+async function fetchTendencia() {
+  const btn = document.getElementById('btn-tendencia');
+  btn.disabled = true; btn.textContent = 'Analisando...';
+  const el = document.getElementById('tendencia-content');
+  el.innerHTML = '<div class="loading-state"><div class="loading-text">Analisando técnica, fundamentos, clima e geopolítica…</div><div class="loading-sub">Pesquisando notícias em tempo real</div></div>';
+  try {
+    const p = priceData?.priceRaw ?? 2.720;
+    const pc = priceData?.price ?? 272.00;
+    const hi = priceData?.high ?? FALLBACK.high;
+    const lo = priceData?.low ?? FALLBACK.low;
+    const chg = priceData?.pct ?? FALLBACK.pct;
+    const vol = priceData?.volume ?? FALLBACK.volume;
+    const r = await callClaude(`Você é analista técnico e fundamentalista em café arábica KC ICE.
+Dados: KC ${pc.toFixed(2)}¢/lb, variação ${chg>=0?'+':''}${chg.toFixed(2)}%, máx ${hi?.toFixed(2)}¢, mín ${lo?.toFixed(2)}¢, vol ~${vol?.toLocaleString()}.
+Pesquise: café arábica KC futures hoje, clima Minas Gerais café safra, USD BRL câmbio hoje, estoques ICE arabica.
+Projete tendência próximas 4-8h. Suporte/resistência em ¢/lb.
+SOMENTE JSON válido sem markdown:
+{"direcao":"ALTA ou BAIXA ou LATERAL","forca":0-100,"horizonte":"próximas 4-8 horas","suporte":número,"resistencia":número,"tecnico":{"tendencia_curta":"1 frase","rsi":"texto","volume":"texto","padrao":"texto"},"fatores":[{"nome":"f","impacto":"alta ou baixa ou neutro","peso":0-100,"descricao":"1 frase"},{"nome":"f","impacto":"alta ou baixa ou neutro","peso":0-100,"descricao":"1 frase"},{"nome":"f","impacto":"alta ou baixa ou neutro","peso":0-100,"descricao":"1 frase"},{"nome":"f","impacto":"alta ou baixa ou neutro","peso":0-100,"descricao":"1 frase"}],"geopolitica":"2 frases","clima_brasil":"2 frases","recomendacao_curto_prazo":"texto","risco_principal":"texto"}`, 1500);
+    const dir = r.direcao || 'LATERAL';
+    const gaugeVal = dir==='ALTA'?r.forca:dir==='BAIXA'?-r.forca:0;
+    const fatoresHTML = (r.fatores||[]).map(f=>`
+      <div class="factor-row">
+        <div class="factor-top"><span class="factor-name">${f.nome}</span><span class="factor-dir ${f.impacto}">${f.impacto.toUpperCase()}</span></div>
+        <div class="factor-bar-bg"><div class="factor-bar-fill" style="width:${f.peso}%;background:${f.impacto==='alta'?'#16a34a':f.impacto==='baixa'?'#dc2626':'#d97706'}"></div></div>
+        <div class="factor-desc">${f.descricao}</div>
+      </div>`).join('');
+    const tec = r.tecnico || {};
+    const tecHTML = [['Momentum',tec.tendencia_curta],['RSI',tec.rsi],['Volume',tec.volume],['Padrão',tec.padrao]]
+      .filter(([,v])=>v).map(([l,v])=>`<div class="tecnico-item"><div class="tecnico-label">${l}</div><div class="tecnico-val">${v}</div></div>`).join('');
+    el.innerHTML = `<div class="fade-in">
+      <div class="direction-card">
+        ${buildGauge(gaugeVal)}
+        <div style="flex:1">
+          <div style="font-size:10px;color:#94a3b8;font-weight:600;letter-spacing:1px;margin-bottom:4px">PROJEÇÃO ${(r.horizonte||'').toUpperCase()}</div>
+          <div style="font-size:26px;font-weight:800" class="direction-${dir}">${dir}</div>
+          <div style="font-size:12px;color:#64748b;margin-top:3px">Força: ${r.forca}/100</div>
+        </div>
+        <div class="levels">
+          <div class="stat-label" style="margin-bottom:6px">NÍVEIS TÉCNICOS</div>
+          <div class="level-R">R ${r.resistencia?.toFixed(2)}¢</div>
+          <div class="level-sep">————</div>
+          <div class="level-S">S ${r.suporte?.toFixed(2)}¢</div>
+        </div>
+      </div>
+      <div class="block"><div class="block-title">Fatores de pressão</div><div class="block-body">${fatoresHTML}</div></div>
+      <div class="block"><div class="block-title">Análise técnica</div><div class="block-body"><div class="tecnico-grid">${tecHTML}</div></div></div>
+      <div class="two-col">
+        <div class="block"><div class="block-title">🌦 Clima Brasil</div><div class="block-body"><p>${r.clima_brasil}</p></div></div>
+        <div class="block"><div class="block-title">🌐 Geopolítica / Macro</div><div class="block-body"><p>${r.geopolitica}</p></div></div>
+      </div>
+      <div class="rec-box"><div class="rec-title">✅ RECOMENDAÇÃO PARA MINAS GERAIS</div><div class="rec-text">${r.recomendacao_curto_prazo}</div></div>
+      <div class="risk-box"><div class="risk-title">⚠ RISCO PRINCIPAL</div><div class="risk-text">${r.risco_principal}</div></div>
+      <div class="disclaimer">Gerado às ${nowStr()} · Não constitui recomendação financeira</div>
+    </div>`;
+  } catch(e) {
+    el.innerHTML = '<div class="err-msg">Não foi possível gerar projeção. Tente novamente.</div>';
+  }
+  btn.disabled = false; btn.textContent = '↻ Projetar';
+}
+
+function buildGauge(value) {
+  const clamp = Math.max(-100, Math.min(100, value));
+  const color = clamp > 30 ? '#16a34a' : clamp < -30 ? '#dc2626' : '#d97706';
+  const cx=60, cy=56, r=44;
+  const toRad = d => d*Math.PI/180;
+  const ax = d => cx + r*Math.cos(toRad(d-90));
+  const ay = d => cy + r*Math.sin(toRad(d-90));
+  const bg = `M ${ax(-90)} ${ay(-90)} A ${r} ${r} 0 0 1 ${ax(90)} ${ay(90)}`;
+  const fa = -90 + ((clamp+100)/200)*180;
+  const fill = `M ${ax(-90)} ${ay(-90)} A ${r} ${r} 0 ${fa>0?1:0} 1 ${ax(fa)} ${ay(fa)}`;
+  const na = (clamp/100)*90;
+  const nx = cx+(r-8)*Math.cos(toRad(na-90)), ny = cy+(r-8)*Math.sin(toRad(na-90));
+  return `<div style="text-align:center"><svg width="120" height="70" viewBox="0 0 120 70">
+    <path d="${bg}" fill="none" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round"/>
+    <path d="${fill}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="3" fill="#1e293b"/>
+    <text x="8" y="68" fill="#94a3b8" font-size="8" font-family="sans-serif">BAIXA</text>
+    <text x="84" y="68" fill="#94a3b8" font-size="8" font-family="sans-serif">ALTA</text>
+  </svg></div>`;
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+fetchPrice();
+setInterval(fetchPrice, 30000);
+renderBeside(loadBeside());
+</script>
+</body>
+</html>
