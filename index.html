@@ -478,7 +478,7 @@ function nowStr() {
 function nowDateStr() {
   return new Date().toLocaleDateString('pt-BR');
 }
-function tocents(n) { return n != null ? Number(n) * 100 : null; }
+function tocents(n) { return n != null ? Number(n) : null; }
 function fmtC(n) { return n != null ? Number(n).toFixed(2) + '¢' : '—'; }
 function fmtBRL(n) { return n != null ? 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'; }
 
