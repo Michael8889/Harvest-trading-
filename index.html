@@ -8,7 +8,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #f1f5f9; font-family: -apple-system, 'Segoe UI', sans-serif; color: #1e293b; min-height: 100vh; padding: 20px 14px 40px; }
 
-  /* ── Layout ── */
   .header { max-width: 720px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .logo { display: flex; align-items: center; gap: 10px; }
   .logo-text { font-size: 22px; font-weight: 800; color: #166534; font-family: Georgia, serif; letter-spacing: -0.5px; line-height: 1; }
@@ -20,7 +19,6 @@
   .subtitle { max-width: 720px; margin: 0 auto 16px; font-size: 12px; color: #94a3b8; }
   .wrap { max-width: 720px; margin: 0 auto; }
 
-  /* ── KC Price card ── */
   .price-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px 22px; margin-bottom: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
   .price-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#166534,#22c55e); }
   .price-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; }
@@ -34,7 +32,6 @@
   .stat-label { font-size:9px; color:#94a3b8; letter-spacing:1px; font-weight:600; }
   .stat-val { font-size:14px; color:#334155; font-weight:600; margin-top:2px; }
 
-  /* ── Beside/Dura card ── */
   .beside-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:18px 22px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.05); position:relative; overflow:hidden; }
   .beside-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#92400e,#d97706); }
   .beside-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; }
@@ -48,13 +45,11 @@
   .beside-row-label { font-size:11px; color:#64748b; }
   .beside-row-val { font-size:13px; color:#334155; font-weight:600; }
 
-  /* Sell CTA */
   .sell-btn { display:block; width:100%; padding:16px; background:linear-gradient(135deg,#166534,#15803d); border:none; border-radius:12px; color:#fff; font-size:16px; font-weight:800; font-family:inherit; cursor:pointer; letter-spacing:0.5px; margin-bottom:12px; box-shadow:0 4px 14px rgba(22,101,52,0.35); transition:all 0.15s; text-decoration:none; text-align:center; }
   .sell-btn:hover { background:linear-gradient(135deg,#14532d,#166534); transform:translateY(-1px); box-shadow:0 6px 18px rgba(22,101,52,0.4); }
   .sell-btn:active { transform:translateY(0); }
   .sell-hint { text-align:center; font-size:11px; color:#94a3b8; margin-bottom:16px; margin-top:-8px; }
 
-  /* ── Admin panel ── */
   .admin-toggle { display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; width:fit-content; }
   .admin-toggle-text { font-size:11px; color:#94a3b8; font-weight:600; letter-spacing:0.5px; }
   .admin-panel { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(0,0,0,0.05); display:none; }
@@ -72,7 +67,6 @@
   .admin-lock input { border:none; background:transparent; font-size:13px; font-family:inherit; outline:none; flex:1; }
   .admin-lock-label { font-size:11px; color:#92400e; font-weight:600; }
 
-  /* ── Tabs ── */
   .tabs-bar { display:flex; gap:3px; background:#fff; border-radius:12px 12px 0 0; padding:6px 6px 0; border:1px solid #e2e8f0; border-bottom:none; }
   .tab-btn { flex:1; padding:10px 4px; font-size:10px; font-weight:700; font-family:inherit; cursor:pointer; border:none; border-radius:8px 8px 0 0; background:transparent; color:#94a3b8; border-bottom:2px solid transparent; transition:all 0.15s; }
   .tab-btn:hover { background:#f8fafc; }
@@ -86,10 +80,8 @@
   .btn-green:hover { background:#15803d; }
   .btn-green:disabled { background:#e2e8f0; color:#94a3b8; cursor:not-allowed; }
 
-  /* Chart */
   .tv-container { height:420px; border-radius:10px; overflow:hidden; border:1px solid #e2e8f0; }
 
-  /* Analysis blocks */
   .summary-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px 16px; margin-bottom:14px; font-size:14px; color:#166534; line-height:1.6; font-weight:500; }
   .signal-row { display:flex; gap:10px; align-items:center; margin-bottom:14px; }
   .signal-badge { padding:7px 20px; border-radius:8px; font-size:13px; font-weight:800; letter-spacing:1px; }
@@ -105,7 +97,6 @@
   .block-body ul { padding-left:18px; }
   .block-body li { margin-bottom:5px; }
 
-  /* Tendência */
   .direction-card { display:flex; align-items:center; gap:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin-bottom:14px; flex-wrap:wrap; }
   .direction-ALTA { color:#16a34a; }
   .direction-BAIXA { color:#dc2626; }
@@ -142,7 +133,6 @@
   .err-msg { color:#dc2626; font-size:13px; padding:8px 0; }
   .disclaimer { font-size:10px; color:#94a3b8; margin-top:8px; }
 
-  /* ── Manhuaçu card ── */
   .manhuacu-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:18px 22px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.05); position:relative; overflow:hidden; }
   .manhuacu-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#1e40af,#3b82f6); }
   .manhuacu-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
@@ -179,7 +169,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="logo">
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -206,7 +195,6 @@
 
 <div class="wrap">
 
-  <!-- ══ KC BOLSA CARD ══ -->
   <div class="price-card">
     <div class="price-top">
       <div>
@@ -238,7 +226,6 @@
     </div>
   </div>
 
-  <!-- ══ BESIDE DURA CARD ══ -->
   <div class="beside-card">
     <div class="beside-grid">
       <div class="beside-price-wrap">
@@ -264,7 +251,6 @@
     </div>
   </div>
 
-  <!-- ══ FÍSICO MANHUAÇU CARD ══ -->
   <div class="manhuacu-card">
     <div class="manhuacu-grid">
       <div>
@@ -290,20 +276,17 @@
     </div>
   </div>
 
-  <!-- ══ BOTÃO VENDER ══ -->
   <a id="sell-btn" class="sell-btn" href="#" onclick="openWhatsApp(event)">
     ☕ QUERO VENDER MEU CAFÉ
   </a>
   <p class="sell-hint">Fale diretamente com a equipe Harvest Coffee no WhatsApp</p>
 
-  <!-- ══ ADMIN TOGGLE ══ -->
   <div class="admin-toggle" onclick="toggleAdmin()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
     <span class="admin-toggle-text" id="admin-toggle-label">PAINEL ADMIN</span>
   </div>
 
   <div class="admin-panel" id="admin-panel">
-    <!-- Lock screen -->
     <div id="admin-lock-screen">
       <div class="admin-lock">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
@@ -314,10 +297,7 @@
       <div style="font-size:11px;color:#dc2626;display:none" id="pass-error">Senha incorreta.</div>
     </div>
 
-    <!-- Admin content (locked by default) -->
     <div id="admin-content" style="display:none">
-
-      <!-- Beside Dura -->
       <div class="admin-title">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         BESIDE DURA · 20% CATA (OFI)
@@ -341,10 +321,8 @@
         <span class="admin-saved" id="admin-saved">✓ Salvo!</span>
       </div>
 
-      <!-- Divisor -->
       <div style="height:1px;background:#f1f5f9;margin-bottom:16px"></div>
 
-      <!-- Manhuaçu -->
       <div class="admin-title" style="color:#1e40af">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
         FÍSICO MANHUAÇU (cafemanhuacu.com.br)
@@ -382,7 +360,6 @@
     </div>
   </div>
 
-  <!-- ══ TABS ══ -->
   <div class="tabs-bar">
     <button class="tab-btn active" onclick="switchTab('grafico')" id="tab-grafico">📈 GRÁFICO</button>
     <button class="tab-btn" onclick="switchTab('analise')" id="tab-analise">🔍 ANÁLISE DO DIA</button>
@@ -390,8 +367,6 @@
   </div>
 
   <div class="tab-panel">
-
-    <!-- GRÁFICO -->
     <div id="panel-grafico">
       <div class="panel-body">
         <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Gráfico em tempo real · KC Arábica ICE · TradingView</div>
@@ -420,7 +395,6 @@
       </div>
     </div>
 
-    <!-- ANÁLISE -->
     <div id="panel-analise" style="display:none">
       <div class="panel-header">
         <div>
@@ -434,7 +408,6 @@
       </div>
     </div>
 
-    <!-- TENDÊNCIA -->
     <div id="panel-tendencia" style="display:none">
       <div class="panel-header">
         <div>
@@ -447,10 +420,8 @@
         <div id="tendencia-content"><div class="empty-state">Clique em "Projetar" para ver a tendência das próximas horas</div></div>
       </div>
     </div>
-
   </div>
 
-  <!-- GLOSSÁRIO -->
   <div class="glossary">
     <span>BASIS</span> = físico BR vs bolsa NYC &nbsp;·&nbsp;
     <span>KC</span> = contrato arábica ICE &nbsp;·&nbsp;
@@ -461,28 +432,24 @@
 </div>
 
 <script>
-// ── Config ────────────────────────────────────────────────────────────────────
 const ADMIN_PASSWORD = 'harvest2025';
 const WA_NUMBER = '4407908086358';
 const SUPA_URL = 'https://rvcedqqeyciakktplqzq.supabase.co';
 const SUPA_KEY = 'sb_publishable_PXMflGpWsC3XtiYvkpdjVQ_GQUkcdcs';
 
-const FALLBACK = { price: 272.00, change: 1.50, pct: 0.55, high: 274.50, low: 269.80, prev: 270.50, volume: 18200, priceRaw: 2.720 };
+const FALLBACK = { price: 330.00, change: 0, pct: 0, high: 332.00, low: 328.00, prev: 330.00, volume: 18000, priceRaw: 3.300 };
 let priceData = null;
 let adminUnlocked = false;
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 function nowStr() {
   return new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
 }
 function nowDateStr() {
   return new Date().toLocaleDateString('pt-BR');
 }
-function tocents(n) { return n != null ? Number(n) : null; }
 function fmtC(n) { return n != null ? Number(n).toFixed(2) + '¢' : '—'; }
 function fmtBRL(n) { return n != null ? 'R$ ' + Number(n).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'; }
 
-// ── Supabase helpers ──────────────────────────────────────────────────────────
 async function supaGet(chave) {
   try {
     const res = await fetch(`${SUPA_URL}/rest/v1/cotacoes?chave=eq.${chave}&select=dados`, {
@@ -496,12 +463,11 @@ async function supaGet(chave) {
 
 async function supaSet(chave, dados) {
   const body = JSON.stringify({ chave, dados: JSON.stringify(dados) });
-  // upsert — insere ou atualiza
   await fetch(`${SUPA_URL}/rest/v1/cotacoes?chave=eq.${chave}`, {
     method: 'DELETE',
     headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
   });
-  await fetch(`${SUPA_URL}/rest/v1/cotacoes`, {
+  const postRes = await fetch(`${SUPA_URL}/rest/v1/cotacoes`, {
     method: 'POST',
     headers: {
       'apikey': SUPA_KEY,
@@ -511,30 +477,32 @@ async function supaSet(chave, dados) {
     },
     body
   });
+  if (!postRes.ok) {
+    const errText = await postRes.text().catch(() => '');
+    console.error('Falha ao salvar no Supabase:', postRes.status, errText);
+    throw new Error('Não foi possível salvar no banco (status ' + postRes.status + '). Verifique as políticas RLS da tabela cotacoes.');
+  }
 }
 
-// ── KC Price fetch ────────────────────────────────────────────────────────────
 async function fetchPrice() {
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/KC%3DF?interval=1m&range=1d&_=${Date.now()}`;
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&timestamp=${Date.now()}`;
-    const res = await fetch(proxy, { signal: AbortSignal.timeout(8000), cache: 'no-store' });
-    const json = await res.json();
-    const data = JSON.parse(json.contents);
-    const meta = data?.chart?.result?.[0]?.meta;
-    if (!meta) throw new Error('no meta');
-    const p = meta.regularMarketPrice;
-    const prev = meta.chartPreviousClose || meta.previousClose;
+    const res = await fetch(`/api/price?_=${Date.now()}`, { signal: AbortSignal.timeout(8000), cache: 'no-store' });
+    const meta = await res.json();
+    if (meta.error) throw new Error(meta.error);
+
+    const p = meta.price;
+    const prev = meta.prev;
     const chg = p - prev;
     const pct = (chg / prev) * 100;
+
     priceData = {
       price: Number(p),
       change: Number(chg),
       pct,
-      high: meta.regularMarketDayHigh,
-      low: meta.regularMarketDayLow,
+      high: meta.high,
+      low: meta.low,
       prev: Number(prev),
-      volume: meta.regularMarketVolume,
+      volume: meta.volume,
       priceRaw: Number(p) / 100
     };
     document.getElementById('api-error').style.display = 'none';
@@ -564,13 +532,11 @@ function updatePriceUI() {
   document.getElementById('stat-vol').textContent = d.volume ? (d.volume/1000).toFixed(0)+'k' : '—';
   document.getElementById('basis-bolsa').textContent = fmtC(d.price);
   document.getElementById('basis-fisico').textContent = fmtC(d.price - 10);
-  // dynamic top bar
   let s = document.getElementById('dyn-style');
   if (!s) { s = document.createElement('style'); s.id = 'dyn-style'; document.head.appendChild(s); }
   s.textContent = `.price-card::before { background: linear-gradient(90deg, ${up?'#166534':'#991b1b'}, ${color}) !important; }`;
 }
 
-// ── Beside storage (Supabase) ─────────────────────────────────────────────────
 async function loadBeside() {
   return await supaGet('beside');
 }
@@ -592,7 +558,6 @@ function renderBeside(data) {
   document.getElementById('beside-updated').textContent = 'Atualizado em ' + (data.date || '') + (data.date ? ' · ' : '') + 'por Harvest Coffee';
 }
 
-// ── Manhuaçu storage (Supabase) ───────────────────────────────────────────────
 async function loadManhuacu() {
   return await supaGet('manhuacu');
 }
@@ -621,7 +586,6 @@ function renderManhuacu(data) {
   updEl.textContent = 'Atualizado em ' + (data.date || nowDateStr()) + ' · Harvest Coffee';
 }
 
-// ── Admin panel ───────────────────────────────────────────────────────────────
 function toggleAdmin() {
   const panel = document.getElementById('admin-panel');
   const isVisible = panel.classList.contains('visible');
@@ -635,7 +599,6 @@ function checkPassword() {
     document.getElementById('admin-lock-screen').style.display = 'none';
     document.getElementById('admin-content').style.display = 'block';
     adminUnlocked = true;
-    // pre-fill beside
     loadBeside().then(saved => {
       if (saved) {
         document.getElementById('input-price').value = saved.price || '';
@@ -645,7 +608,6 @@ function checkPassword() {
         document.getElementById('input-date').value = nowDateStr();
       }
     });
-    // pre-fill manhuaçu
     loadManhuacu().then(savedM => {
       if (savedM) {
         document.getElementById('input-manhuacu-price').value = savedM.priceBruto || '';
@@ -676,10 +638,14 @@ async function saveBeside() {
   const date = document.getElementById('input-date').value.trim() || nowDateStr();
   const obs = document.getElementById('input-obs').value.trim();
   if (!price || isNaN(price)) { alert('Digite um preço válido.'); return; }
-  await saveBesideData(price, date, obs);
-  const saved = document.getElementById('admin-saved');
-  saved.style.display = 'inline';
-  setTimeout(() => { saved.style.display = 'none'; }, 2500);
+  try {
+    await saveBesideData(price, date, obs);
+    const saved = document.getElementById('admin-saved');
+    saved.style.display = 'inline';
+    setTimeout(() => { saved.style.display = 'none'; }, 2500);
+  } catch (e) {
+    alert('Erro ao salvar: ' + e.message);
+  }
 }
 
 async function saveManhuacu() {
@@ -688,13 +654,16 @@ async function saveManhuacu() {
   const tipo = document.getElementById('input-manhuacu-tipo').value.trim();
   const date = document.getElementById('input-manhuacu-date').value.trim() || nowDateStr();
   if (!bruto || isNaN(bruto)) { alert('Digite o preço bruto de Manhuaçu.'); return; }
-  await saveManhuacuData(bruto, desconto, tipo, date);
-  const saved = document.getElementById('admin-saved-manhuacu');
-  saved.style.display = 'inline';
-  setTimeout(() => { saved.style.display = 'none'; }, 2500);
+  try {
+    await saveManhuacuData(bruto, desconto, tipo, date);
+    const saved = document.getElementById('admin-saved-manhuacu');
+    saved.style.display = 'inline';
+    setTimeout(() => { saved.style.display = 'none'; }, 2500);
+  } catch (e) {
+    alert('Erro ao salvar: ' + e.message);
+  }
 }
 
-// ── WhatsApp CTA ──────────────────────────────────────────────────────────────
 async function openWhatsApp(e) {
   e.preventDefault();
   const kc = priceData ? fmtC(priceData.price) : '—';
@@ -710,7 +679,6 @@ async function openWhatsApp(e) {
   window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
 }
 
-// ── Tabs ──────────────────────────────────────────────────────────────────────
 function switchTab(id) {
   ['grafico','analise','tendencia'].forEach(t => {
     document.getElementById('panel-'+t).style.display = t === id ? 'block' : 'none';
@@ -718,7 +686,6 @@ function switchTab(id) {
   });
 }
 
-// ── Claude API ────────────────────────────────────────────────────────────────
 async function callClaude(prompt, maxTokens) {
   const res = await fetch('/api/claude', {
     method: 'POST',
@@ -742,8 +709,8 @@ async function fetchAnalysis() {
   const el = document.getElementById('analise-content');
   el.innerHTML = '<div class="loading-state"><div class="loading-text">Pesquisando notícias e analisando mercado…</div><div class="loading-sub">Aguarde alguns segundos</div></div>';
   try {
-    const p = priceData?.priceRaw ?? 2.720;
-    const pc = priceData?.price ?? 272.00;
+    const p = priceData?.priceRaw ?? 3.300;
+    const pc = priceData?.price ?? 330.00;
     const chg = priceData?.pct ?? FALLBACK.pct;
     const r = await callClaude(`Você é analista especialista em café arábica brasileiro.
 KC cotado em ${pc.toFixed(2)}¢/lb ($${p.toFixed(3)}/lb), variação ${chg>=0?'+':''}${chg.toFixed(2)}% (${chg>=0?'alta':'queda'}).
@@ -777,8 +744,8 @@ async function fetchTendencia() {
   const el = document.getElementById('tendencia-content');
   el.innerHTML = '<div class="loading-state"><div class="loading-text">Analisando técnica, fundamentos, clima e geopolítica…</div><div class="loading-sub">Pesquisando notícias em tempo real</div></div>';
   try {
-    const p = priceData?.priceRaw ?? 2.720;
-    const pc = priceData?.price ?? 272.00;
+    const p = priceData?.priceRaw ?? 3.300;
+    const pc = priceData?.price ?? 330.00;
     const hi = priceData?.high ?? FALLBACK.high;
     const lo = priceData?.low ?? FALLBACK.low;
     const chg = priceData?.pct ?? FALLBACK.pct;
@@ -853,7 +820,6 @@ function buildGauge(value) {
   </svg></div>`;
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
 async function initCotacoes() {
   const [beside, manhuacu] = await Promise.all([loadBeside(), loadManhuacu()]);
   renderBeside(beside);
@@ -863,7 +829,6 @@ async function initCotacoes() {
 fetchPrice();
 setInterval(fetchPrice, 30000);
 initCotacoes();
-// Recarrega cotações do Supabase a cada 60s para manter em tempo real
 setInterval(initCotacoes, 60000);
 </script>
 </body>
